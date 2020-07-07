@@ -4,7 +4,7 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <Header />
+                
                 <h1>Icarus Airlines</h1>
                 <LoginForm />
             </div>
@@ -12,15 +12,6 @@ class Home extends Component {
     }
 }
 
-class Header extends Component {
-    render() {
-        return (
-            <div>
-                <a href="">Sign up</a>
-            </div>
-        )
-    }
-}
 
 class LoginForm extends Component {
     constructor(){
