@@ -25,6 +25,7 @@ class Flights extends Component {
 
     fetchFlights();
     this.saveFlight = this.saveFlight.bind(this)
+    
 
   }
 
@@ -69,10 +70,10 @@ class Search extends Component {
   _handleSubmit(event) {
     event.preventDefault();
     this.props.onSubmit(this.state.origin);
-    this.setState({origin: ''});
+    
 
     this.props.onSubmit(this.state.destination);
-    this.setState({destination: ''});
+    
   }
 
   render() {
@@ -107,10 +108,9 @@ class Search extends Component {
 
 
 const Table = (props) => {
-  console.log(props.flights);
     return (
       <div>
-        {props.flights.map((s) => <p> {props.flights.id} </p>) }
+        {props.flights.map((s) => <p> {s.name} </p>) }
       </div>
     )
 }
