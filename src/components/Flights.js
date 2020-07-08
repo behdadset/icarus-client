@@ -34,7 +34,6 @@ class Flights extends Component {
     fetchFlights();
     this.saveFlight = this.saveFlight.bind(this)
 
-
     fetchPlanes();
     this.savePlanes = this.savePlane.bind(this)
 
@@ -58,7 +57,6 @@ class Flights extends Component {
     this.setState({origin: from, destination: to})
   }
 
-
   render() {
     return (
       <div>
@@ -71,9 +69,6 @@ class Flights extends Component {
   }
 }
 
-//  We want Display to render according to the parameters of flight's plane(col, row)
-//  We need the plane to
-
 class Search extends Component {
   constructor() {
     super();
@@ -84,7 +79,6 @@ class Search extends Component {
     this._handleSubmit= this._handleSubmit.bind(this);
   }
 
-
   _handleChangeOrigin(event) {
     this.setState({origin: event.target.value});
   }
@@ -93,7 +87,6 @@ class Search extends Component {
     this.setState({destination: event.target.value});
 
   }
-
 
   _handleSubmit(event) {
     event.preventDefault();
@@ -130,9 +123,6 @@ class Search extends Component {
 
 
 const Table = (props) => {
-
-
-
   function formatDate(string){
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(string).toLocaleDateString([],options);
@@ -141,7 +131,7 @@ const Table = (props) => {
   return (
     <div id="flightTable">
       {props.flights.filter(s => s.origin === props.origin && s.destination === props.destination).map(flights_filtered => (
-        <button value={(flights_filtered.plane_id)}>
+        <button key={flights_filtered.id} onClick={() => {console.log(flights_filtered.plane_id)}}>
           {flights_filtered.name} | {formatDate(flights_filtered.departure_date)} => {formatDate(flights_filtered.destination_date)}
         </button>
       ))}
@@ -150,9 +140,6 @@ const Table = (props) => {
 }
 
 const Display = (props) => {
-
-
-
     let totalSeats = [];
     let rows = [];
     const letters = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -168,7 +155,7 @@ const Display = (props) => {
 
       <div id="plane">
         {totalSeats.map((s) => (
-          s.map((r) => <button id={r}>{r}</button>))
+          s.map((r) => <button id={r} key={r} >{r}</button>))
         )
         }
       </div>
