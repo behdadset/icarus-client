@@ -5,13 +5,42 @@ const SERVER_URL = 'http://localhost:3000/flights.json';
 
 
 class Flights extends Component {
+  constructor() {
+      super();
+      this.state = {
+    // seed data: TODO fetch this via AJAX
+        flights: []
+    // Data for flight
+      }
+
+
+
+    const fetchFlights = () => {
+
+      axios.get(SERVER_URL).then((results) => {
+        this.setState({flights: results.data})
+        setTimeout(fetchFlights, 6000);
+      })
+    }
+
+    fetchFlights();
+    this.saveFlight = this.saveFlight.bind(this)
+
+  }
+
+  saveFlight(content) {
+    // create a new secret object with this content
+    axios.post(SERVER_URL, {content: content}).then((result) => {
+      this.setState({flights: [...this.state.flights, result.data]});
+    });
+  }
 
   render() {
     return (
       <div>
         <h1> Flights Page </h1>
-        <Search /> // The search bar at the top to find the Flights
-        <Table /> // Table of flights to choose from.
+        <Search onSubmit={this.saveFlight}/> // The search bar at the top to find the Flights
+        <Table flights={this.state.flights}/> // Table of flights to choose from.
         <Display /> // Display of the actual plane.
       </div>
     )
@@ -46,8 +75,6 @@ class Search extends Component {
     this.setState({destination: ''});
   }
 
-
-
   render() {
     return (
       <div>
@@ -63,10 +90,10 @@ class Search extends Component {
 
           <select type="search" name="destination" size="1" onChange={this._handleChangeDestination} required>
             <option disabled selected value> -- select destination -- </option>
-            <option value="MEL">MEL</option>
-            <option value="SYD">SYD</option>
-            <option value="PER">PER</option>
-            <option value="BNE">BNE</option>
+            <option value={ this.state.content }>MEL</option>
+            <option value={ this.state.content }>SYD</option>
+            <option value={ this.state.content }>PER</option>
+            <option value={ this.state.content }>BNE</option>
           </ select>
 
           <input type="submit" value="Search" />
@@ -79,12 +106,13 @@ class Search extends Component {
 
 
 
-class Table extends Component {
-  render() {
+const Table = (props) => {
+  console.log(props.flights);
     return (
-      <h2>Table</h2>
+      <div>
+        {props.flights.map((s) => <p> {props.flights.id} </p>) }
+      </div>
     )
-  }
 }
 
 class Display extends Component {
