@@ -127,18 +127,18 @@ class Search extends Component {
 
 
 const Table = (props) => {
-
   
-
   function formatDate(string){
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    
     return new Date(string).toLocaleDateString([],options);
+    
   }
 
   return (
     <div id="flightTable">
       {props.flights.filter(s => s.origin === props.origin && s.destination === props.destination).map(flights_filtered => (
-        <button value={(flights_filtered.plane_id)}>
+        <button>
           {flights_filtered.name} | {formatDate(flights_filtered.departure_date)} => {formatDate(flights_filtered.destination_date)}
         </button>
       ))}
@@ -148,8 +148,8 @@ const Table = (props) => {
 
 const Display = (props) => {
 
-    
-
+    const row = props.planes[0]
+    console.log(row)
     let totalSeats = [];
     let rows = [];
     const letters = ['A', 'B', 'C', 'D', 'E', 'F']
