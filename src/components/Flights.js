@@ -116,7 +116,7 @@ const Table = (props) => {
       <ol id="flightTable">
         {props.flights.filter(s => s.origin === props.origin && s.destination === props.destination).map(flights_filtered => (
           <li>
-            {flights_filtered.name}
+            {`${ flights_filtered.name } ${ flights_filtered.origin } - ${ flights_filtered.destination }`  }
           </li>
         ))}
       </ol>
