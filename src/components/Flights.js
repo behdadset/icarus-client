@@ -63,12 +63,15 @@ class Flights extends Component {
       <div>
         <h1> Flights Page </h1>
         <Search onSubmit={this.saveSearch}/> // The search bar at the top to find the Flights
-        <Table flights={this.state.flights} origin={this.state.origin} destination={this.state.destination}/> // Table of flights to choose from.
-        <Display planes={this.state.planes}/> // Display of the actual plane.
+        <Table flights={this.state.flights} origin={this.state.origin} destination={this.state.destination} /> // Table of flights to choose from.
+        <Display planes={this.state.planes} id={this.state.plane_id} /> // Display of the actual plane.
       </div>
     )
   }
 }
+
+//  We want Display to render according to the parameters of flight's plane(col, row)
+//  We need the plane to
 
 class Search extends Component {
   constructor() {
@@ -125,9 +128,6 @@ class Search extends Component {
 
 
 const Table = (props) => {
-  console.log(props.flights);
-  console.log(props.origin);
-
 
   function formatDate(string){
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -135,13 +135,13 @@ const Table = (props) => {
   }
 
   return (
-    <ol id="flightTable">
+    <div id="flightTable">
       {props.flights.filter(s => s.origin === props.origin && s.destination === props.destination).map(flights_filtered => (
-        <li>
+        <button onClick={flights_filtered}>
           {flights_filtered.name} | {formatDate(flights_filtered.departure_date)} => {formatDate(flights_filtered.destination_date)}
-        </li>
+        </button>
       ))}
-    </ol>
+    </div>
   )
 }
 
