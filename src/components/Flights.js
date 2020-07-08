@@ -11,16 +11,17 @@ class Flights extends Component {
       this.state = {
     // seed data: TODO fetch this via AJAX
         flights: [],
-        planes: []
+        planes: [],
+        plane: ''
     // Data for flight
       }
       this.saveSearch = this.saveSearch.bind(this);
-
+      this.selectedPlane = this.selectedPlane.bind(this);
 
     const fetchFlights = () => {
       axios.get(FLIGHTS_URL).then((results) => {
         this.setState({flights: results.data})
-        setTimeout(fetchFlights, 6000);
+        // setTimeout(fetchFlights, 6000);
       })
     }
 
@@ -57,13 +58,18 @@ class Flights extends Component {
     this.setState({origin: from, destination: to})
   }
 
+  selectedPlane(plane) {
+    this.setState({plane: plane})
+  }
+
+
   render() {
     return (
       <div>
         <h1> Flights Page </h1>
         <Search onSubmit={this.saveSearch}/> // The search bar at the top to find the Flights
-        <Table flights={this.state.flights} origin={this.state.origin} destination={this.state.destination}/> // Table of flights to choose from.
-        <Display planes={this.state.planes} id={this.state.plane_id}/> // Display of the actual plane.
+        <Table flights={this.state.flights} origin={this.state.origin} destination={this.state.destination} onClick={ this.selectedPlane } /> // Table of flights to choose from.
+        <Display planes={this.state.planes} id={this.state.plane} /> // Display of the actual plane.
       </div>
     )
   }
@@ -88,6 +94,7 @@ class Search extends Component {
 
   }
 
+
   _handleSubmit(event) {
     event.preventDefault();
     this.props.onSubmit(this.state.origin, this.state.destination, this.state.plane_id);
@@ -104,7 +111,7 @@ class Search extends Component {
             <option value={ this.state.content }>SYD</option>
             <option value={ this.state.content }>PER</option>
             <option value={ this.state.content }>BNE</option>
-          </ select>
+          </select>
 
           <select type="search" name="destination" size="1" onChange={this._handleChangeDestination} required>
             <option disabled selected value> -- select destination -- </option>
@@ -112,7 +119,7 @@ class Search extends Component {
             <option value={ this.state.content }>SYD</option>
             <option value={ this.state.content }>PER</option>
             <option value={ this.state.content }>BNE</option>
-          </ select>
+          </select>
 
           <input type="submit" value="Search" />
         </form>
@@ -123,6 +130,11 @@ class Search extends Component {
 
 
 const Table = (props) => {
+
+  function expandPlane(plane) {
+    props.onClick(plane);
+  }
+
   function formatDate(string){
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(string).toLocaleDateString([],options);
@@ -131,7 +143,7 @@ const Table = (props) => {
   return (
     <div id="flightTable">
       {props.flights.filter(s => s.origin === props.origin && s.destination === props.destination).map(flights_filtered => (
-        <button key={flights_filtered.id} onClick={() => {console.log(flights_filtered.plane_id)}}>
+        <button onClick={() => { expandPlane(flights_filtered.plane_id) }}>
           {flights_filtered.name} | {formatDate(flights_filtered.departure_date)} => {formatDate(flights_filtered.destination_date)}
         </button>
       ))}
@@ -140,6 +152,13 @@ const Table = (props) => {
 }
 
 const Display = (props) => {
+
+  // if (!props.planes[1]) {
+  //   return props.planes[1].rows = '';
+  // }
+  // const row = props.planes[1].rows
+  console.log(props.planes)
+
     let totalSeats = [];
     let rows = [];
     const letters = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -154,10 +173,7 @@ const Display = (props) => {
     return (
 
       <div id="plane">
-        {totalSeats.map((s) => (
-          s.map((r) => <button id={r} key={r} >{r}</button>))
-        )
-        }
+        {totalSeats.map((s) => ( s.map((r) => <button id={r} key={r} >{r}</button>)))}
       </div>
     )
 
