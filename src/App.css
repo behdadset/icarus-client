@@ -18,3 +18,21 @@ nav{
   align-items: center;
   list-style: none;
 }
+
+
+#flightTable {
+  background-color: #aaa;
+  padding: 3em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  width: 400px;
+  min-height: 200px;
+  margin: 1em;
+  margin-left: 33%;
+  text-align: left;
+}
+
+
+#flightTable p {
+  vertical-align: top;
+}
