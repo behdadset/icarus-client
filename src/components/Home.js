@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Component } from 'react'
+import Registration from './Registration';
  
 class Home extends Component {
     render() {
@@ -6,6 +7,7 @@ class Home extends Component {
             <div>
                 
                 <h1>Icarus Airlines</h1>
+                <Registration />
                 <LoginForm />
             </div>
         )
@@ -17,6 +19,7 @@ class LoginForm extends Component {
     constructor(){
         super();
         this.state = {content: '', pass: ''}
+        this.profiles = {id: 1, email: "test@test.co", password: "chicken"}
         this._handleChange=this._handleChange.bind(this);
         this._handlePassChange=this._handlePassChange.bind(this);
     }

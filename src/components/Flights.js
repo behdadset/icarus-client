@@ -34,6 +34,7 @@ class Flights extends Component {
     fetchFlights();
     this.saveFlight = this.saveFlight.bind(this)
 
+
     fetchPlanes();
     this.savePlanes = this.savePlane.bind(this)
 
@@ -53,7 +54,7 @@ class Flights extends Component {
     });
   }
 
-  saveSearch(from, to) {
+  saveSearch(from, to, id) {
     this.setState({origin: from, destination: to})
   }
 
@@ -63,8 +64,8 @@ class Flights extends Component {
       <div>
         <h1> Flights Page </h1>
         <Search onSubmit={this.saveSearch}/> // The search bar at the top to find the Flights
-        <Table flights={this.state.flights} origin={this.state.origin} destination={this.state.destination} /> // Table of flights to choose from.
-        <Display planes={this.state.planes} id={this.state.plane_id} /> // Display of the actual plane.
+        <Table flights={this.state.flights} origin={this.state.origin} destination={this.state.destination}/> // Table of flights to choose from.
+        <Display planes={this.state.planes} id={this.state.plane_id}/> // Display of the actual plane.
       </div>
     )
   }
@@ -76,11 +77,10 @@ class Flights extends Component {
 class Search extends Component {
   constructor() {
     super();
-    this.state = { origin: "", destination: "" }
+    this.state = { origin: "", destination: "", plane_id: "" }
 
     this._handleChangeOrigin= this._handleChangeOrigin.bind(this);
     this._handleChangeDestination= this._handleChangeDestination.bind(this);
-
     this._handleSubmit= this._handleSubmit.bind(this);
   }
 
@@ -91,11 +91,13 @@ class Search extends Component {
 
   _handleChangeDestination(event) {
     this.setState({destination: event.target.value});
+
   }
+
 
   _handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state.origin, this.state.destination);
+    this.props.onSubmit(this.state.origin, this.state.destination, this.state.plane_id);
   }
 
   render() {
@@ -129,6 +131,8 @@ class Search extends Component {
 
 const Table = (props) => {
 
+
+
   function formatDate(string){
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(string).toLocaleDateString([],options);
@@ -137,7 +141,7 @@ const Table = (props) => {
   return (
     <div id="flightTable">
       {props.flights.filter(s => s.origin === props.origin && s.destination === props.destination).map(flights_filtered => (
-        <button onClick={flights_filtered}>
+        <button value={(flights_filtered.plane_id)}>
           {flights_filtered.name} | {formatDate(flights_filtered.departure_date)} => {formatDate(flights_filtered.destination_date)}
         </button>
       ))}
@@ -145,16 +149,10 @@ const Table = (props) => {
   )
 }
 
-class Display extends Component {
-  constructor() {
-    super();
-    this.state = {
+const Display = (props) => {
 
-    }
-    this._handleSubmit= this._handleSubmit.bind(this);
-  }
 
-  render() {
+
     let totalSeats = [];
     let rows = [];
     const letters = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -175,20 +173,8 @@ class Display extends Component {
         }
       </div>
     )
-  }
+
 }
-
-// <div class="row">
-//   <div class="col lineNumber">1</div>
-//   <div class="col seat unavailable" id="1A" data-row="1" data-column="1" data-plane="4"></div>
-//   <div class="col seat" id="1B" data-row="1" data-column="2" data-plane="4"></div>
-//   <div class="col seat" id="1C" data-row="1" data-column="3" data-plane="4"></div>
-//   <div class="col aisle"> </div>
-//   <div class="col seat" id="1D" data-row="1" data-column="4" data-plane="4"></div>
-//   <div class="col seat" id="1E" data-row="1" data-column="5" data-plane="4"></div>
-//   <div class="col seat unavailable" id="1F" data-row="1" data-column="6" data-plane="4"></div>
-// </div>
-
 
 
 
