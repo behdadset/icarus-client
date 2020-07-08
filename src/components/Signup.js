@@ -6,6 +6,7 @@ export default class Signup extends Component {
         this.state = {content: '', pass: ''}
         this._handleChange=this._handleChange.bind(this);
         this._handlePassChange=this._handlePassChange.bind(this);
+        this._handleConfPassChange=this._handleConfPassChange.bind(this);
     }
     
     _handleChange(event){
@@ -17,7 +18,7 @@ export default class Signup extends Component {
     }
     
     _handleConfPassChange(event){
-        this.setState({pass: event.target.value})
+        this.setState({confpass: event.target.value})
     }
     render(){
         return (
@@ -29,7 +30,7 @@ export default class Signup extends Component {
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" value={this.state.pass} required="required" onChange={this._handlePassChange}></input>
                 <label for="password">Confirm Password:</label>
-                <input type="password" name="password" id="conf-password" value={this.state.pass} required="required" onChange={this._handleConfPassChange}></input>
+                <input type="password" name="conf-password" id="conf-password" value={this.state.confpass} required="required" onChange={this._handleConfPassChange}></input>
                 <input type="submit" name="commit" value="Login"></input>
             </form>
         )
