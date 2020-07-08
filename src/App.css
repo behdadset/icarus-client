@@ -36,3 +36,12 @@ nav{
 #flightTable p {
   vertical-align: top;
 }
+
+#plane {
+  width: 180px;
+  margin-left: 45%;
+}
+
+#plane button {
+  margin: 5px;
+}
