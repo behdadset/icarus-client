@@ -9,10 +9,11 @@ class Flights extends Component {
       super();
       this.state = {
     // seed data: TODO fetch this via AJAX
-        flights: []
+        flights: [],
+
     // Data for flight
       }
-
+      this.saveSearch = this.saveSearch.bind(this);
 
 
     const fetchFlights = () => {
@@ -36,12 +37,18 @@ class Flights extends Component {
     });
   }
 
+  saveSearch(from, to) {
+    this.setState({origin: from, destination: to})
+  }
+
+
+
   render() {
     return (
       <div>
         <h1> Flights Page </h1>
-        <Search onSubmit={this.saveFlight}/> // The search bar at the top to find the Flights
-        <Table flights={this.state.flights}/> // Table of flights to choose from.
+        <Search onSubmit={this.saveSearch}/> // The search bar at the top to find the Flights
+        <Table flights={this.state.flights} origin={this.state.origin} destination={this.state.destination}/> // Table of flights to choose from.
         <Display /> // Display of the actual plane.
       </div>
     )
@@ -55,6 +62,7 @@ class Search extends Component {
 
     this._handleChangeOrigin= this._handleChangeOrigin.bind(this);
     this._handleChangeDestination= this._handleChangeDestination.bind(this);
+
     this._handleSubmit= this._handleSubmit.bind(this);
   }
 
@@ -69,11 +77,7 @@ class Search extends Component {
 
   _handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state.origin);
-    
-
-    this.props.onSubmit(this.state.destination);
-    
+    this.props.onSubmit(this.state.origin, this.state.destination);
   }
 
   render() {
@@ -105,21 +109,29 @@ class Search extends Component {
 }
 
 
-
-
 const Table = (props) => {
+
     return (
-      <div>
-        {props.flights.map((s) => <p> {s.name} </p>) }
-      </div>
+      <ol id="flightTable">
+        {props.flights.filter(s => s.origin === props.origin && s.destination === props.destination).map(flights_filtered => (
+          <li>
+            {flights_filtered.name}
+          </li>
+        ))}
+      </ol>
     )
 }
 
 class Display extends Component {
+
+  
   render() {
-    return (
-      <h2>Plane Display</h2>
-    )
+    for(let i =0; i<10; i++ ){
+      return (
+      <h2>Plane Display{i+1}</h2>
+      )
+    }
+    
   }
 }
 
