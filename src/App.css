@@ -19,6 +19,14 @@ nav{
   list-style: none;
 }
 
+.seat {
+  width: 40px;
+}
+
+.reserved {
+  width: 40px;
+  background-color: red;
+}
 
 #flightTable {
   background-color: #aaa;
@@ -38,8 +46,8 @@ nav{
 }
 
 #plane {
-  width: 180px;
-  margin-left: 45%;
+  width: 220px;
+  margin-left: 44%;
 }
 
 #plane button {
