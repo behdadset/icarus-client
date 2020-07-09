@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-const FLIGHTS_URL = 'http://localhost:3000/flights.json';
-const PLANES_URL = 'http://localhost:3000/planes.json';
+const FLIGHTS_URL = 'https://icarus-airlines.herokuapp.com/flights.json';
+const PLANES_URL = 'https://icarus-airlines.herokuapp.com/planes.json';
 class Flights extends Component {
   constructor() {
     super();
@@ -128,7 +128,6 @@ class Display extends Component {
     this.state = {
       totalSeats: [],
       rows: [],
-      letters: ['A', 'B', 'C', 'D', 'E', 'F']
     }
     this.toggleClass = this.toggleClass.bind(this)
   }
@@ -136,9 +135,10 @@ class Display extends Component {
   generateSeats() {
     let totalSeats = []
     let seats = []
+    let letters=  ['A', 'B', 'C', 'D', 'E', 'F']
     for (let i = 1; i <= this.props.plane.rows; i++) {
       for (let x = 0; x < this.props.plane.columns; x++) {
-        seats = [...seats, {name: `${i}${seats[x]}`, isTaken: false}]
+        seats = [...seats, {name: `${i}${letters[x]}`, isTaken: false}]
       }
       totalSeats.push(seats);
       seats = [];
