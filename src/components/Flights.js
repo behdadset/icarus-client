@@ -138,7 +138,7 @@ class Display extends Component {
     let seats = []
     for (let i = 1; i <= this.props.plane.rows; i++) {
       for (let x = 0; x < this.props.plane.columns; x++) {
-        seats = [...seats, {name: `${i}${seats[x]}`, isTaken: false}]
+        seats = [...seats, {name: `${i}${this.state.letters[x]}`, isTaken: false}]
       }
       totalSeats.push(seats);
       seats = [];
