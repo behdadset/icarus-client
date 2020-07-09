@@ -123,45 +123,53 @@ const Table = (props) => {
   )
 }
 class Display extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {addClass: false}
-  }
-
-  toggle() {
-    this.setState({addClass: !this.state.addClass});
-  }
-
-  render() {
-    let seatClass = ["seat"];
-    if(this.state.addClass) {
-      seatClass.push('reserved');
+  constructor() {
+    super();
+    this.state = {
+      totalSeats: [],
+      rows: [],
+      letters: ['A', 'B', 'C', 'D', 'E', 'F']
     }
+    this.toggleClass = this.toggleClass.bind(this)
+  }
 
-    let totalSeats = [];
-    let rows = [];
-    const letters = ['A', 'B', 'C', 'D', 'E', 'F']
+  generateSeats() {
+    let totalSeats = []
+    let seats = []
     for (let i = 1; i <= this.props.plane.rows; i++) {
       for (let x = 0; x < this.props.plane.columns; x++) {
-        rows.push(`${i}${letters[x]}`)
+        seats = [...seats, {name: `${i}${seats[x]}`, isTaken: false}]
       }
-      totalSeats.push(rows)
-      rows = [];
+      totalSeats.push(seats);
+      seats = [];
     }
+    this.setState({totalSeats: totalSeats})
+  }
 
-    function setSeat(seat) {
-      console.log(seat);
+
+  toggleClass(rowIndex, seatIndex) {
+    const preState = this.state.totalSeats.slice()
+    preState[rowIndex][seatIndex] = !preState[rowIndex][seatIndex]
+    this.setState({totalSeats: preState})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.plane.id !== prevProps.plane.id) {
+      this.generateSeats()
     }
+  }
 
+    render() {
     return (
       <div id="plane">
-        {totalSeats.map((s) => (
-          s.map((r) => <button
-          className={seatClass.join(' ')}
-          onClick={this.toggle.bind(this)}
-          id={r}>{r}</button>))
-        )
-        }
+        {this.state.totalSeats.map((r, rowIndex) => (
+          r.map((s, seatIndex) => <button
+          // if statement for the class
+          onClick={() => this.toggleClass(rowIndex, seatIndex)}
+          className={s.isTaken ? 'taken': ''}
+          id={s.name}>{s.name}
+          </button>))
+        )}
       </div>
     )
   }
