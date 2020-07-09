@@ -19,11 +19,11 @@ nav{
   list-style: none;
 }
 
-.taken {
+.empty {
   width: 40px;
 }
 
-.taken {  
+.taken {
   width: 40px;
   background-color: red;
 }

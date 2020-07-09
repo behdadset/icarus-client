@@ -146,10 +146,10 @@ class Display extends Component {
     this.setState({totalSeats: totalSeats})
   }
 
-
+// check the previous state and if it is different to what was fed in to swap it
   toggleClass(rowIndex, seatIndex) {
     const preState = this.state.totalSeats.slice()
-    preState[rowIndex][seatIndex] = !preState[rowIndex][seatIndex]
+    preState[rowIndex][seatIndex].isTaken = !preState[rowIndex][seatIndex].isTaken
     this.setState({totalSeats: preState})
   }
 
@@ -159,18 +159,18 @@ class Display extends Component {
     }
   }
 
-    render() {
+
+  render() {
     return (
-      <div id="plane">
-        {this.state.totalSeats.map((r, rowIndex) => (
-          r.map((s, seatIndex) => <button
-          // if statement for the class
-          onClick={() => this.toggleClass(rowIndex, seatIndex)}
-          className={s.isTaken ? 'taken': ''}
-          id={s.name}>{s.name}
-          </button>))
-        )}
-      </div>
+        <div id="plane">
+          {this.state.totalSeats.map((r, rowIndex) => (
+            r.map((s, seatIndex) => <button
+            onClick={() => this.toggleClass(rowIndex, seatIndex)}
+            className={s.isTaken ? 'taken': 'empty'}
+            id={s.name}>{s.name}
+            </button>))
+          )}
+        </div>
     )
   }
 }
